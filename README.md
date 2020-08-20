@@ -1,5 +1,5 @@
 Covid 19 Tracking App Link
-https://covid19-tracker-c4fc1.web.app(`Firebase Hosting`)
+https://covid19-tracker-c4fc1.web.app `Firebase Hosting`
 
 If you want to run this app via locally then follow the instructions
 
