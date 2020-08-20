@@ -70,7 +70,7 @@ const LineGraph = ({type="cases"})=>{
         .then(result=>result.json())
         .then(data=>{
             
-            let chartData= buildChartData(data,"cases");
+            let chartData= buildChartData(data,type);
             setData(chartData);
         })
     },[type]);
@@ -85,7 +85,7 @@ const LineGraph = ({type="cases"})=>{
                 data={{
                     datasets:[
                         {
-                            borderColor:"red",
+                            borderColor:type==="cases"?"yellow":type==="recovered"?"green":"red",
                             data:data
                         }
                     ]

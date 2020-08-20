@@ -1,0 +1,21 @@
+.Covidinfo{
+    flex: 0.9;
+    cursor: pointer;
+}
+.Covidinfo:not(:last-child){
+    margin-right: 10px;
+}
+
+.Covidinfo_cases{
+    color:red;
+
+}
+.cases{
+    border-bottom: 10px solid yellow;
+}
+.recovered{
+    border-bottom: 10px solid green;
+}
+.deaths{
+    border-bottom: 10px solid red;
+}

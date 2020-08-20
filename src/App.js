@@ -5,6 +5,8 @@ import Maps from './component/Map';
 import TableData from './component/Table';
 import LineGraph from './component/LineGraph/Linegraph';
 import 'leaflet/dist/leaflet.css';
+import {InfoLine} from './component/Helper/Helper';
+
 
 import './App.css';
 
@@ -13,8 +15,11 @@ function App() {
   const [country,setCountry] = useState("worldwide");
   const [countryInfo,setCountryInfo] = useState({});
   const [tableData, setTableData] = useState([]);
-  const [mapCenter, setMapCenter] = useState({lat:22.8016844,lng:94.4467525});
-  const [mapZoom, setMapZoom] = useState(3);
+  const [mapCenter, setMapCenter] = useState({lat:22,lng:91});
+  const [mapZoom, setMapZoom] = useState(2);
+  const [mapCountries,setMapCountries]=useState([]);
+  const [caseType,setCaseType] = useState("cases");
+
 
   useEffect(()=>{
     fetch("https://disease.sh/v3/covid-19/all")
@@ -38,6 +43,7 @@ function App() {
             code:country.countryInfo.iso2
           }
         ));
+        setMapCountries(data);
         setTableData(data);
         setCountries(countries);
       });
@@ -45,7 +51,9 @@ function App() {
 
     
     getCountries();
-  }, [])
+  }, []);
+
+ 
 
   const oncountryChange=async(e)=>{
     const countrycode = e.target.value;
@@ -57,6 +65,8 @@ function App() {
     .then((data)=>{
       setCountry(countrycode);
       setCountryInfo(data);
+      countrycode==="worldwide"?setMapCenter({lat:22,lng:91}):setMapCenter([data.countryInfo.lat,data.countryInfo.long]);
+      countrycode==="worldwide"?setMapZoom(3):setMapZoom(4);
     })
    
   }
@@ -75,19 +85,31 @@ function App() {
       </FormControl>
       </div>
       <div className="Covid">
-        <CovidInfo title=" Todays Cases" cases={countryInfo.todayCases} total={countryInfo.cases}/>
-        <CovidInfo title="Todays Recoverd" cases={countryInfo.todayRecovered} total={countryInfo.recovered}/>
-        <CovidInfo title=" Todays Deaths" cases={countryInfo.todayDeaths} total={countryInfo.deaths}/>
+        <CovidInfo 
+              onClick={e=>setCaseType('cases')} 
+              active={caseType==='cases'}
+              color="cases"
+              title="Todays Cases" cases={InfoLine(countryInfo.todayCases)} total={InfoLine(countryInfo.cases)} />
+        <CovidInfo 
+              onClick={e=>setCaseType('recovered')} 
+              color="recovered"
+              active={caseType==='recovered'}
+              title="Todays Recoverd" cases={InfoLine(countryInfo.todayRecovered)} total={InfoLine(countryInfo.recovered)}/>
+        <CovidInfo 
+              onClick={e=>setCaseType('deaths')}
+              color="deaths" 
+              active={caseType==='deaths'}
+              title="Todays Deaths" cases={InfoLine(countryInfo.todayDeaths)} total={InfoLine(countryInfo.deaths)}/>
       </div>
-      <Maps center={mapCenter} zoom={mapZoom}/>
+      <Maps caseType={caseType} countries={mapCountries} center={mapCenter} zoom={mapZoom}/>
       </div>
       <Card className="app_right">
         <CardContent>
           <h3>Live Cases By Country</h3>
           <TableData countries={tableData} />
           <br/>
-          <h3>Worldwide Cases</h3>
-          <LineGraph/>
+          <h3>Worldwide {caseType}</h3>
+          <LineGraph type={caseType}/>
         </CardContent>
       </Card>
     </div>

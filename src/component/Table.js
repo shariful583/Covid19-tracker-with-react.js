@@ -1,6 +1,8 @@
 import React from 'react';
+import { withStyles, makeStyles } from '@material-ui/core/styles';
 import {TableContainer,Table,TableHead,TableRow,TableBody,TableCell} from '@material-ui/core';
 import './Table.css';
+
 
 const TableData = ({countries})=>{
     return(   
@@ -10,8 +12,8 @@ const TableData = ({countries})=>{
                     <TableRow>
                         <TableCell>Country</TableCell>
                         <TableCell>Total Cases</TableCell>
-                        <TableCell>Total Recovered</TableCell>
-                        <TableCell>Total Deaths</TableCell>
+                        {/* <TableCell>Total Recovered</TableCell>
+                        <TableCell>Total Deaths</TableCell> */}
                     </TableRow>
                 </TableHead>
                 <TableBody>
@@ -19,8 +21,8 @@ const TableData = ({countries})=>{
                         <TableRow hover>
                         <TableCell>{data.country}</TableCell>
                         <TableCell>{data.cases}</TableCell>
-                        <TableCell>{data.recovered}</TableCell>
-                        <TableCell>{data.deaths}</TableCell>
+                        {/* <TableCell>{data.recovered}</TableCell>
+                        <TableCell>{data.deaths}</TableCell> */}
                     </TableRow>
                     ))}                 
                 </TableBody>
